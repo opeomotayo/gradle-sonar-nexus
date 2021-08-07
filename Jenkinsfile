@@ -70,7 +70,7 @@ pipeline {
                         nexusVersion: 'nexus3', 
                         protocol: 'http', 
                         repository: 'gradle-snapshots', 
-                        version: "1.0.${BUILD_NUMBER}"
+                        version: "1.0.${BUILD_NUMBER}-SNAPSHOT"
                 }
             }
         }

@@ -25,18 +25,17 @@ pipeline {
                             script {
                                     withSonarQubeEnv('SonarQube') {
                                     sh './gradlew sonarqube'
-                                    waitForQualityGate abortPipeline: true
                                 } 
                             }
                         }
                     }
-                    // stage("Quality Gate"){
-                    //     steps {
-                    //         script {
-                    //             waitForQualityGate abortPipeline: true
-                    //         }
-                    //     }
-                    // }
+                    stage("Quality Gate"){
+                        steps {
+                            script {
+                                waitForQualityGate abortPipeline: true
+                            }
+                        }
+                    }
                     // stage("Quality Gate"){
                     //     steps {
                     //         script {

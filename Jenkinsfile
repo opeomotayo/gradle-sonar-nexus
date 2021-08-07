@@ -22,11 +22,11 @@ pipeline {
                 parallel {
                     stage('SonarQube Analysis') {
                         steps {
-                    script {
-                            withSonarQubeEnv('SonarQube') {
-                            sh './gradlew sonarqube'
-                        } 
-                        }
+                            script {
+                                    withSonarQubeEnv('SonarQube') {
+                                    sh './gradlew sonarqube'
+                                } 
+                            }
                         }
                     }
                     stage('Test Reports') {

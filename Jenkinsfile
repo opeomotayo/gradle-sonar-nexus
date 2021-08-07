@@ -52,10 +52,7 @@ pipeline {
         }
         stage('Test Reports') {
             steps {
-                sh 'ls -la build/reports/tests'
                 sh './gradlew test'
-                sh './gradlew check'
-                sh 'ls -la build/reports/tests'
             }
             post {
                 always {

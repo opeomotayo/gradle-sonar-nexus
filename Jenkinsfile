@@ -30,15 +30,26 @@ pipeline {
                         }
                     }
                     stage("Quality Gate"){
-                        timeout(time: 1, unit: 'HOURS') {
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                                sh "Quality gate failed"
-                                // emailext body: 'Your code was failed due to sonarqube quality gate', subject: 'Jenkins Failed Report', to: 'opeomotayo@gmail.com'
-                                // error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        steps {
+                            script {
+                                waitForQualityGate abortPipeline: true
                             }
                         }
                     }
+                    // stage("Quality Gate"){
+                    //     steps {
+                    //         script {
+                    //             timeout(time: 1, unit: 'HOURS') {
+                    //                 def qg = waitForQualityGate()
+                    //                 if (qg.status != 'OK') {
+                    //                     sh "Quality gate failed"
+                    //                     // emailext body: 'Your code was failed due to sonarqube quality gate', subject: 'Jenkins Failed Report', to: 'opeomotayo@gmail.com'
+                    //                     // error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
                     stage('Test Reports') {
                         steps {
                             sh 'ls -la build/reports/tests'

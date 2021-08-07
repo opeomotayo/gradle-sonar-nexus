@@ -10,38 +10,40 @@ pipeline {
         stage('Build') {
         	steps {
                 sh './gradlew -b build.gradle clean build'
-                sh "ls -la build/libs/"
             }
-            // post {
-            //     always {
-            //         archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true //archiveArtifacts 'build/libs/*.?ar' or rchiveArtifacts 'build/libs/*.jar'
-            //     }
-            // }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'build/libs/*.?ar', fingerprint: true
+                }
+            }
         }
         
-        // stage('Parallel Stages') {
-        //         parallel {
-                    // stage('SonarQube analysis') {
-                    //     steps {
-                    // script {
-                    //         withSonarQubeEnv('sonar') {
-                    //         sh './gradlew sonarqube'
-                    //     } 
-                    //     }
-                    //     }
-                    // }
-                    // stage('Test Reports') {
-                    //     steps {
-                    //         sh './gradlew check'
-                    //     }
-                    //     post {
-                    //         always {
-                    //             junit 'build/reports/**/*.xml' //'build/test-results/test/*.xml'
-                    //         }
-                    //     }
-                    // }
-            //     }
-            // }
+        stage('Parallel Stages') {
+                parallel {
+                    stage('SonarQube Analysis') {
+                        steps {
+                    script {
+                            withSonarQubeEnv('SonarQube') {
+                            sh './gradlew sonarqube'
+                        } 
+                        }
+                        }
+                    }
+                    stage('Test Reports') {
+                        steps {
+                            sh 'ls -la build/reports'
+                            sh './gradlew test'
+                            sh './gradlew check'
+                            sh 'ls -la build/reports'
+                        }
+                        post {
+                            always {
+                                junit 'build/reports/**/*.xml' //'build/test-results/test/*.xml'
+                            }
+                        }
+                    }
+                }
+            }
                
             // stage('Artifact Uploader') {
             //     steps {

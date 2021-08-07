@@ -18,24 +18,23 @@ pipeline {
         //     }
         // }
         
-        stage('Parallel Stages') {
-                parallel {
-                    stage('SonarQube Analysis') {
-                        steps {
-                            script {
-                                    withSonarQubeEnv('SonarQube') {
-                                    sh './gradlew sonarqube'
-                                } 
-                            }
-                        }
-                    }
-                    stage("Quality Gate"){
-                        steps {
-                            script {
-                                waitForQualityGate //abortPipeline: true
-                            }
-                        }
-                    }
+  
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                        withSonarQubeEnv('SonarQube') {
+                        sh './gradlew sonarqube'
+                    } 
+                }
+            }
+        }
+        stage("Quality Gate"){
+            steps {
+                script {
+                    waitForQualityGate() //abortPipeline: true
+                }
+            }
+        }
                     // stage("Quality Gate"){
                     //     steps {
                     //         script {
@@ -63,8 +62,7 @@ pipeline {
                     //         }
                     //     }
                     // }
-                }
-            }
+     
                
             // stage('Artifact Uploader') {
             //     steps {

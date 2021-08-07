@@ -10,12 +10,13 @@ pipeline {
         stage('Build') {
         	steps {
                 sh './gradlew -b build.gradle clean build'
+                sh "ls -la build/libs/"
             }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true //archiveArtifacts 'build/libs/*.?ar' or rchiveArtifacts 'build/libs/*.jar'
-                }
-            }
+            // post {
+            //     always {
+            //         archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true //archiveArtifacts 'build/libs/*.?ar' or rchiveArtifacts 'build/libs/*.jar'
+            //     }
+            // }
         }
         
         // stage('Parallel Stages') {
@@ -42,38 +43,38 @@ pipeline {
             //     }
             // }
                
-            stage('Artifact Uploader') {
-                steps {
-                    script {
-                        sh "pwd"
-                        sh "ls -la"
-                        sh "ls -la build/"
-                        sh "ls -la build/libs/"
-                        // echo "artifactId: $artifactId"
-                        // echo "file: $file"
-                        // echo "type: $type"
-                        // echo "credentialsId: $credentialsId"
-                        // echo "groupId: $groupId" 
-                        // echo "nexusUrl: $nexusUrl"
-                        // echo "nexusVersion: $nexusVersion" 
-                        // echo "protocol: $protocol" 
-                        // echo "repository: $repository"
-                        // echo "version: $version"
-                        nexusArtifactUploader artifacts: 
-                        [[  artifactId: 'spring-boot-api-example', 
-                            file: "build/libs/spring-boot-api-example-1.0.0.jar",
-                            type: 'jar'
-                        ]], 
-                            credentialsId: 'nexusAdminCreds', 
-                            groupId: 'com.opeomotayo', 
-                            nexusUrl: '172.16.16.101:8081', 
-                            nexusVersion: 'nexus3', 
-                            protocol: 'http', 
-                            repository: 'spring-boot-api-example-release', 
-                            version: "1.0.${BUILD_NUMBER}"
-                    }
-                }
-            }
+            // stage('Artifact Uploader') {
+            //     steps {
+            //         script {
+            //             sh "pwd"
+            //             sh "ls -la"
+            //             sh "ls -la build/"
+            //             sh "ls -la build/libs/"
+            //             // echo "artifactId: $artifactId"
+            //             // echo "file: $file"
+            //             // echo "type: $type"
+            //             // echo "credentialsId: $credentialsId"
+            //             // echo "groupId: $groupId" 
+            //             // echo "nexusUrl: $nexusUrl"
+            //             // echo "nexusVersion: $nexusVersion" 
+            //             // echo "protocol: $protocol" 
+            //             // echo "repository: $repository"
+            //             // echo "version: $version"
+            //             nexusArtifactUploader artifacts: 
+            //             [[  artifactId: 'spring-boot-api-example', 
+            //                 file: "build/libs/spring-boot-api-example-1.0.0.jar",
+            //                 type: 'jar'
+            //             ]], 
+            //                 credentialsId: 'nexusAdminCreds', 
+            //                 groupId: 'com.opeomotayo', 
+            //                 nexusUrl: '172.16.16.101:8081', 
+            //                 nexusVersion: 'nexus3', 
+            //                 protocol: 'http', 
+            //                 repository: 'spring-boot-api-example-release', 
+            //                 version: "1.0.${BUILD_NUMBER}"
+            //         }
+            //     }
+            // }
             // stage('Deploy to PreProd') {
             //     steps {
             //         sh '''

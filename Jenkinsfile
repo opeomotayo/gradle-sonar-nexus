@@ -69,7 +69,7 @@ pipeline {
                         nexusUrl: '172.22.22.11:8081', 
                         nexusVersion: 'nexus3', 
                         protocol: 'http', 
-                        repository: 'gradle-snapshot', 
+                        repository: 'gradle-snapshots', 
                         version: "1.0.${BUILD_NUMBER}"
                 }
             }

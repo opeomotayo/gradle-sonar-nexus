@@ -50,19 +50,19 @@ pipeline {
                 }
             }
         }
-                    // stage('Test Reports') {
-                    //     steps {
-                    //         sh 'ls -la build/reports/tests'
-                    //         sh './gradlew test'
-                    //         sh './gradlew check'
-                    //         sh 'ls -la build/reports/tests'
-                    //     }
-                    //     post {
-                    //         always {
-                    //             junit 'build/reports/**/*.xml' //'build/test-results/test/*.xml'
-                    //         }
-                    //     }
-                    // }
+        stage('Test Reports') {
+            steps {
+                sh 'ls -la build/reports/tests'
+                sh './gradlew test'
+                sh './gradlew check'
+                sh 'ls -la build/reports/tests'
+            }
+            post {
+                always {
+                    junit 'build/reports/**/*.xml' //'build/test-results/test/*.xml'
+                }
+            }
+        }
      
                
             // stage('Artifact Uploader') {

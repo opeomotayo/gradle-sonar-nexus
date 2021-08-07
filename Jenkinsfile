@@ -25,6 +25,7 @@ pipeline {
                             script {
                                     withSonarQubeEnv('SonarQube') {
                                     sh './gradlew sonarqube'
+                                    waitForQualityGate abortPipeline: true
                                 } 
                             }
                         }

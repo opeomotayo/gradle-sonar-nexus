@@ -7,16 +7,16 @@ pipeline {
 
 	stages {
 	
-        stage('Build') {
-        	steps {
-                sh './gradlew -b build.gradle clean build'
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'build/libs/*.?ar', fingerprint: true
-                }
-            }
-        }
+        // stage('Build') {
+        // 	steps {
+        //         sh './gradlew -b build.gradle clean build'
+        //     }
+        //     post {
+        //         always {
+        //             archiveArtifacts artifacts: 'build/libs/*.?ar', fingerprint: true
+        //         }
+        //     }
+        // }
         
         stage('Parallel Stages') {
                 parallel {
@@ -29,12 +29,22 @@ pipeline {
                             }
                         }
                     }
+                    stage("Quality Gate"){
+                        timeout(time: 1, unit: 'HOURS') {
+                            def qg = waitForQualityGate()
+                            if (qg.status != 'OK') {
+                                sh "Quality gate failed"
+                                // emailext body: 'Your code was failed due to sonarqube quality gate', subject: 'Jenkins Failed Report', to: 'opeomotayo@gmail.com'
+                                // error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            }
+                        }
+                    }
                     stage('Test Reports') {
                         steps {
-                            sh 'ls -la build/reports'
+                            sh 'ls -la build/reports/tests'
                             sh './gradlew test'
                             sh './gradlew check'
-                            sh 'ls -la build/reports'
+                            sh 'ls -la build/reports/tests'
                         }
                         post {
                             always {

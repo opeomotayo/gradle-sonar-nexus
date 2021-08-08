@@ -68,9 +68,9 @@ pipeline {
                             filePath: "build/libs/spring-boot-api-example-1.0.0.jar"],
                         ],
                         mavenCoordinate: [
-                            artifactId: 'spring-boot-app', 
+                            artifactId: 'spring-boot-api-example', 
                             groupId: 'com.opeomotayo', 
-                            packaging: "jar", version: "4.6.0"]
+                            packaging: "jar", version: "1.0.0"]
                         ]
                     ]
                     // nexusArtifactUploader artifacts: 

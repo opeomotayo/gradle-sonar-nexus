@@ -59,18 +59,32 @@ pipeline {
         stage('Nexus Upload') {
             steps {
                 script {
-                    nexusArtifactUploader artifacts: 
-                    [[  artifactId: 'spring-boot-app', 
-                        file: "build/libs/spring-boot-api-example-1.0.0.jar",
-                        type: 'jar'
-                    ]], 
-                        credentialsId: 'nexusAdminCreds', 
-                        groupId: 'com.opeomotayo', 
-                        nexusUrl: '172.22.22.11:8081', 
-                        nexusVersion: 'nexus3', 
-                        protocol: 'http', 
-                        repository: 'gradle-snapshots', 
-                        version: "1.0.${BUILD_NUMBER}-SNAPSHOT"
+                    nexusPublisher nexusInstanceId: 'nexus-server', nexusRepositoryId: 'gradle-snapshots',
+                    packages: [ 
+                        [$class: 'MavenPackage', 
+                        mavenAssetList: [ 
+                            [classifier: '', 
+                            extension: 'jar', 
+                            filePath: "build/libs/spring-boot-api-example-1.0.0.jar"],
+                        ],
+                        mavenCoordinate: [
+                            artifactId: 'spring-boot-app', 
+                            groupId: 'com.opeomotayo', 
+                            packaging: "jar", version: "4.6.0"]
+                        ]
+                    ]
+                    // nexusArtifactUploader artifacts: 
+                    // [[  artifactId: 'spring-boot-app', 
+                    //     file: "build/libs/spring-boot-api-example-1.0.0.jar",
+                    //     type: 'jar'
+                    // ]], 
+                    //     credentialsId: 'nexusAdminCreds', 
+                    //     groupId: 'com.opeomotayo', 
+                    //     nexusUrl: '172.22.22.11:8081', 
+                    //     nexusVersion: 'nexus3', 
+                    //     protocol: 'http', 
+                    //     repository: 'gradle-snapshots', 
+                    //     version: "1.0.${BUILD_NUMBER}-SNAPSHOT"
                 }
             }
         }

@@ -53,6 +53,7 @@ pipeline {
         stage('Test Reports') {
             steps {
                 sh './gradlew test'
+                sh "ls -la ./build/libs/"
             }
         }
             
@@ -63,14 +64,14 @@ pipeline {
                     packages: [
                         [$class: 'MavenPackage', 
                         mavenAssetList: [ 
-                            [classifier: 'gra', 
+                            [classifier: '', 
                             extension: 'jar', 
                             filePath: "./build/libs/spring-boot-api-example-1.0.0.jar"],
                         ],
                         mavenCoordinate: [
-                            artifactId: 'spring-boot-api-example', 
+                            artifactId: 'spring-boot-app', 
                             groupId: 'com.opeomotayo', 
-                            packaging: "jar", version: "1.0.0"]
+                            packaging: "jar", version: "1.0.${BUILD_NUMBER}-SNAPSHOT"]
                         ]
                     ]
                     // nexusArtifactUploader artifacts: 

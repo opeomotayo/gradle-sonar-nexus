@@ -60,7 +60,7 @@ pipeline {
         stage('Nexus Upload') {
             steps {
                 script {
-                    nexusPublisher nexusInstanceId: 'nexus-server', nexusRepositoryId: 'gradle-snapshots',
+                    nexusPublisher nexusInstanceId: 'nexus-server', nexusRepositoryId: 'gradle-releases',
                     packages: [
                         [$class: 'MavenPackage', 
                         mavenAssetList: [ 
@@ -71,7 +71,7 @@ pipeline {
                         mavenCoordinate: [
                             artifactId: 'spring-boot-app', 
                             groupId: 'com.opeomotayo', 
-                            packaging: "jar", version: "1.0.${BUILD_NUMBER}-SNAPSHOT"]
+                            packaging: "jar", version: "1.0.0"]
                         ]
                     ]
                     // nexusArtifactUploader artifacts: 

@@ -60,12 +60,12 @@ pipeline {
             steps {
                 script {
                     nexusPublisher nexusInstanceId: 'nexus-server', nexusRepositoryId: 'gradle-snapshots',
-                    packages: [ 
+                    packages: [
                         [$class: 'MavenPackage', 
                         mavenAssetList: [ 
-                            [classifier: '', 
+                            [classifier: 'gra', 
                             extension: 'jar', 
-                            filePath: "build/libs/spring-boot-api-example-1.0.0.jar"],
+                            filePath: "./build/libs/spring-boot-api-example-1.0.0.jar"],
                         ],
                         mavenCoordinate: [
                             artifactId: 'spring-boot-api-example', 

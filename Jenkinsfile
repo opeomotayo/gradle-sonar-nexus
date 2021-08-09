@@ -60,7 +60,23 @@ pipeline {
         stage('Nexus Upload') {
             steps {
                 script {
-                    nexusPublisher nexusInstanceId: 'nexus-server', nexusRepositoryId: 'gradle-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'build/libs/spring-boot-api-example-1.0.0.jar']], mavenCoordinate: [artifactId: 'spring-boot-jar', groupId: 'org.omotayo', packaging: 'jar', version: '1.0.0']]]
+                    nexusPublisher nexusInstanceId: 'nexus-server', nexusRepositoryId: 'gradle-releases',
+                    packages: [ 
+                        [$class: 'MavenPackage', 
+                        mavenAssetList: [ 
+                            [classifier: '', 
+                            extension: 'jar', 
+                            filePath: "build/libs/spring-boot-api-example-1.0.0.jar"],
+                        ],
+                        mavenCoordinate: [
+                            artifactId: 'spring-boot-jar', 
+                            groupId: 'com.opeomotayo', 
+                            packaging: 'jar', version: '1.0.${BUILD_NUMBER}']
+                        ]
+                    ]
+
+                    // nexusPublisher nexusInstanceId: 'localNexus', nexusRepositoryId: 'releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'war/target/jenkins.war']], mavenCoordinate: [artifactId: 'jenkins-war', groupId: 'org.jenkins-ci.main', packaging: 'war', version: '2.23']]]
+                    
                     // nexusArtifactUploader artifacts: 
                     // [[  artifactId: 'spring-boot-app', 
                     //     file: "build/libs/spring-boot-api-example-1.0.0.jar",
